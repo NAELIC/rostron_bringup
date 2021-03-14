@@ -3,7 +3,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
-namespace='yellow'
+namespace='blue'
 
 def generate_launch_description():
     ld = LaunchDescription()
@@ -11,7 +11,7 @@ def generate_launch_description():
     config = os.path.join(
         get_package_share_directory('rostron_bringup'),
         'config',
-        'yellow_sim.yaml'
+        'blue_sim.yaml'
     )
 
     vision = Node(
