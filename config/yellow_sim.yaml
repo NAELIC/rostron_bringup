@@ -1,0 +1,8 @@
+yellow:
+  vision:
+    ros__parameters:
+      port: 10020
+
+  sim_sender:
+    ros__parameters:
+      port: 10302
