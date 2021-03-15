@@ -115,8 +115,13 @@ local_costmap:
       height: 3
       resolution: 0.05
       robot_radius: 0.22
+      plugins: ["static_layer", "rostron_obstacle_layer"]
       static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
+      rostron_obstacle_layer:
+        plugin: rostron_nav_costmap_plugin/ObstacleLayer
+        enabled: True        
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -136,10 +141,13 @@ global_costmap:
       robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
-      plugins: ["static_layer"]
+      plugins: ["static_layer", "rostron_obstacle_layer"]
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
+      rostron_obstacle_layer:
+        plugin: rostron_nav_costmap_plugin/ObstacleLayer
+        enabled: True
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:

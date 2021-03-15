@@ -25,7 +25,7 @@ def generate_launch_description():
         # Controller
         Node(
             package='nav2_controller',
-            node_executable='controller_server',
+            executable='controller_server',
             output='screen',
             parameters=[nav2_yaml]),
         # Planner
