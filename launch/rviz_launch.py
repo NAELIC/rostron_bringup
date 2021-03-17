@@ -59,15 +59,12 @@ def generate_launch_description():
 
     # Declare the launch options
     ld.add_action(declare_namespace_cmd)
-    ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_rviz_config_file_cmd)
 
     # Add any conditioned actions
-    ld.add_action(start_rviz_cmd)
     ld.add_action(start_namespaced_rviz_cmd)
 
     # Add other nodes and processes we need
-    ld.add_action(exit_event_handler)
     ld.add_action(exit_event_handler_namespaced)
 
     return ld

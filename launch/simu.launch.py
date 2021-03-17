@@ -6,7 +6,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 
 
 def generate_launch_description():
@@ -42,12 +42,20 @@ def generate_launch_description():
     for robot in robots:
         group = GroupAction([
             IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                os.path.join(launch_dir, 'rostron_nav.launch.py')
-            ),
-            launch_arguments={
-                'namespace': [ns, '/robot_', str(robot)]
-            }.items())
+                PythonLaunchDescriptionSource(
+                    os.path.join(launch_dir, 'rviz_launch.py')),
+                # condition=IfCondition(use_rviz),
+                launch_arguments={
+                    'namespace': [ns, '/robot_', str(robot)],
+                    # 'rviz_config': rviz_config_file
+                    }.items()),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(launch_dir, 'rostron_nav.launch.py')
+                ),
+                launch_arguments={
+                    'namespace': [ns, '/robot_', str(robot)]
+                }.items())
         ])
 
         ld.add_action(group)

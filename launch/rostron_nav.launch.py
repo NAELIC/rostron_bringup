@@ -13,12 +13,6 @@ from nav2_common.launch import RewrittenYaml
 def generate_launch_description():
     bringup_dir = get_package_share_directory('rostron_bringup')
     # TODO : @Etienne(Make parameters)
-    rviz_config_dir = os.path.join(
-        get_package_share_directory('rostron_bringup'),
-        'config',
-        'nav2_default_view.rviz')
-
-    # TODO : @Etienne(Make parameters)
     map_file = os.path.join(bringup_dir, 'maps', 'division_b.yaml')
 
     ns = LaunchConfiguration('namespace')
@@ -32,8 +26,8 @@ def generate_launch_description():
                        'map_server']
 
     # TODO : @Etienne
-    # remappings = [('/tf', 'tf'),
-    #               ('/tf_static', 'tf_static')]
+    remappings = [('/tf', 'tf'),
+                  ('/tf_static', 'tf_static')]
 
     param_substitutions = {
         'default_bt_xml_filename': default_bt_xml_filename
@@ -70,6 +64,7 @@ def generate_launch_description():
             package='nav2_controller',
             executable='controller_server',
             output='screen',
+            remappings=remappings,
             parameters=[conf]),
 
         # Planner
@@ -78,6 +73,7 @@ def generate_launch_description():
             executable='planner_server',
             name='planner_server',
             output='screen',
+            remappings=remappings,
             parameters=[conf]),
 
         # Recoveries
@@ -85,6 +81,7 @@ def generate_launch_description():
             package='nav2_recoveries',
             executable='recoveries_server',
             name='recoveries_server',
+            remappings=remappings,
             output='screen'),
 
         # To see
@@ -93,6 +90,7 @@ def generate_launch_description():
             executable='bt_navigator',
             name='bt_navigator',
             output='screen',
+            remappings=remappings,
             parameters=[conf]
         ),
 
