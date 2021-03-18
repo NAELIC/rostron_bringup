@@ -19,11 +19,12 @@ def generate_launch_description():
     params_file = LaunchConfiguration('conf')
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
 
-    lifecycle_nodes = ['controller_server',
-                       'planner_server',
-                       'recoveries_server',
-                       'bt_navigator',
-                       'map_server']
+    lifecycle_nodes = [
+        # 'controller_server',
+        # 'planner_server',
+        # 'recoveries_server',
+        # 'bt_navigator',
+        'map_server']
 
     # TODO : @Etienne
     remappings = [('/tf', 'tf'),
@@ -59,46 +60,45 @@ def generate_launch_description():
 
         # Navigation - Start
 
-        # Controller
-        Node(
-            package='nav2_controller',
-            executable='controller_server',
-            output='screen',
-            remappings=remappings,
-            parameters=[conf]),
+        # # Controller
+        # Node(
+        #     package='nav2_controller',
+        #     executable='controller_server',
+        #     output='screen',
+        #     remappings=remappings,
+        #     parameters=[conf]),
 
-        # Planner
-        Node(
-            package='nav2_planner',
-            executable='planner_server',
-            name='planner_server',
-            output='screen',
-            remappings=remappings,
-            parameters=[conf]),
+        # # Planner
+        # Node(
+        #     package='nav2_planner',
+        #     executable='planner_server',
+        #     name='planner_server',
+        #     output='screen',
+        #     remappings=remappings,
+        #     parameters=[conf]),
 
-        # Recoveries
-        Node(
-            package='nav2_recoveries',
-            executable='recoveries_server',
-            name='recoveries_server',
-            remappings=remappings,
-            output='screen'),
+        # # Recoveries
+        # Node(
+        #     package='nav2_recoveries',
+        #     executable='recoveries_server',
+        #     name='recoveries_server',
+        #     remappings=remappings,
+        #     output='screen'),
 
-        # To see
-        Node(
-            package='nav2_bt_navigator',
-            executable='bt_navigator',
-            name='bt_navigator',
-            output='screen',
-            remappings=remappings,
-            parameters=[conf]
-        ),
+        # # To see
+        # Node(
+        #     package='nav2_bt_navigator',
+        #     executable='bt_navigator',
+        #     name='bt_navigator',
+        #     output='screen',
+        #     remappings=remappings,
+        #     parameters=[conf]
+        # ),
 
 
         Node(
             package='nav2_map_server',
             executable='map_server',
-            namespace=ns,
             name='map_server',
             output='screen',
             parameters=[{'use_sim_time': False},

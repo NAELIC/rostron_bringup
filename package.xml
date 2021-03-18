@@ -14,8 +14,9 @@
 
   <exec_depend>rostron_receiver</exec_depend>
   <exec_depend>rostron_sender</exec_depend>
+  <exec_depend>rostron_filters_py</exec_depend>
+  <exec_depend>rostron_nav</exec_depend>
 
-  
   <export>
     <build_type>ament_cmake</build_type>
   </export>

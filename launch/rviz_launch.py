@@ -29,7 +29,7 @@ def generate_launch_description():
 
     declare_rviz_config_file_cmd = DeclareLaunchArgument(
         'rviz_config',
-        default_value=os.path.join(bringup_dir, 'rviz', 'nav2_default_view.rviz'),
+        default_value=os.path.join(bringup_dir, 'rviz', 'nav2.rviz'),
         description='Full path to the RVIZ config file to use')
 
     namespaced_rviz_config_file = ReplaceString(
@@ -40,7 +40,6 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        namespace=namespace,
         arguments=['-d', namespaced_rviz_config_file],
         output='screen',
         remappings=[('/tf', 'tf'),

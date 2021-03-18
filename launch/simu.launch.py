@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch.substitutions import LaunchConfiguration, TextSubstitution
 
 
@@ -40,21 +40,24 @@ def generate_launch_description():
     ])
 
     for robot in robots:
+        ns_robot = [ns, '/robot_', str(robot)]
         group = GroupAction([
+            PushRosNamespace(
+                namespace=ns_robot),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(launch_dir, 'rviz_launch.py')),
-                # condition=IfCondition(use_rviz),
+                # condition=IfCondition(use_rviz), TODO @Etienne : Rviz by default is not True.
                 launch_arguments={
-                    'namespace': [ns, '/robot_', str(robot)],
+                    'namespace': ns_robot, # See textsubstitution
                     # 'rviz_config': rviz_config_file
-                    }.items()),
+                }.items()),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(launch_dir, 'rostron_nav.launch.py')
                 ),
                 launch_arguments={
-                    'namespace': [ns, '/robot_', str(robot)]
+                    'namespace': ns_robot
                 }.items())
         ])
 
