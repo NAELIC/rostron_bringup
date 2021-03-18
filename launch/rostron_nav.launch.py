@@ -20,10 +20,10 @@ def generate_launch_description():
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
 
     lifecycle_nodes = [
-        # 'controller_server',
-        # 'planner_server',
-        # 'recoveries_server',
-        # 'bt_navigator',
+        'controller_server',
+        'planner_server',
+        'recoveries_server',
+        'bt_navigator',
         'map_server']
 
     # TODO : @Etienne
@@ -60,40 +60,58 @@ def generate_launch_description():
 
         # Navigation - Start
 
-        # # Controller
-        # Node(
-        #     package='nav2_controller',
-        #     executable='controller_server',
-        #     output='screen',
-        #     remappings=remappings,
-        #     parameters=[conf]),
+        # Fake TF Transform odom <-> base_link
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            output='screen',
+            arguments=["0", "0", "0", "0", "0", "0", "odom", "base_link"],
+            remappings=remappings
+        ),
 
-        # # Planner
-        # Node(
-        #     package='nav2_planner',
-        #     executable='planner_server',
-        #     name='planner_server',
-        #     output='screen',
-        #     remappings=remappings,
-        #     parameters=[conf]),
+        # Navigation
+        Node(
+            package='rostron_nav',
+            executable='localisation',
+            name='localisation',
+            output='screen',
+            remappings=remappings
+        ),
 
-        # # Recoveries
-        # Node(
-        #     package='nav2_recoveries',
-        #     executable='recoveries_server',
-        #     name='recoveries_server',
-        #     remappings=remappings,
-        #     output='screen'),
+        # Controller
+        Node(
+            package='nav2_controller',
+            executable='controller_server',
+            output='screen',
+            remappings=remappings,
+            parameters=[conf]),
 
-        # # To see
-        # Node(
-        #     package='nav2_bt_navigator',
-        #     executable='bt_navigator',
-        #     name='bt_navigator',
-        #     output='screen',
-        #     remappings=remappings,
-        #     parameters=[conf]
-        # ),
+        # Planner
+        Node(
+            package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
+            output='screen',
+            remappings=remappings,
+            parameters=[conf]),
+
+        # Recoveries
+        Node(
+            package='nav2_recoveries',
+            executable='recoveries_server',
+            name='recoveries_server',
+            remappings=remappings,
+            output='screen'),
+
+        # To see
+        Node(
+            package='nav2_bt_navigator',
+            executable='bt_navigator',
+            name='bt_navigator',
+            output='screen',
+            remappings=remappings,
+            parameters=[conf]
+        ),
 
 
         Node(
@@ -101,6 +119,7 @@ def generate_launch_description():
             executable='map_server',
             name='map_server',
             output='screen',
+            remappings=remappings,
             parameters=[{'use_sim_time': False},
                         {'yaml_filename': map_file}
                         ]
@@ -112,5 +131,6 @@ def generate_launch_description():
             name='lifecycle_manager_navigation',
             output='screen',
             parameters=[{'autostart': True},
+                        {'use_sim_time': False},
                         {'node_names': lifecycle_nodes}])
     ])

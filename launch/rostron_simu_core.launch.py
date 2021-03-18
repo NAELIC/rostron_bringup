@@ -26,7 +26,6 @@ def generate_launch_description():
         # Vision - Receive vision data
         Node(
             package='rostron_receiver',
-            namespace=ns,
             executable='vision',
             parameters=[config],
             output='screen'
@@ -36,7 +35,6 @@ def generate_launch_description():
         # Todo(@Etienne) - rename this on agreggate_loc
         Node(
             package='rostron_filters_py',
-            namespace=ns,
             executable='minimal_filter',
             name='filter',
             parameters=[config],
@@ -46,7 +44,6 @@ def generate_launch_description():
         # Send to simulation (Orders, etc...)
         Node(
             package='rostron_sender',
-            namespace=ns,
             executable='sim_sender',
             parameters=[config],
             output='screen'

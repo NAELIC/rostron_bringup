@@ -16,7 +16,7 @@ def generate_launch_description():
     ns = LaunchConfiguration('team')
     config_rostron = LaunchConfiguration('config_rostron')
 
-    robots = [0]
+    robots = [0, 1]
 
     ld = LaunchDescription([
         DeclareLaunchArgument(
@@ -28,6 +28,11 @@ def generate_launch_description():
             default_value=os.path.join(
                 bringup_dir, 'params', 'rostron_sim.yaml'),
             description='Configuration files for rostron'),
+    ])
+
+    group_main = [
+        PushRosNamespace(
+            namespace=ns),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(launch_dir, 'rostron_simu_core.launch.py')
@@ -37,10 +42,10 @@ def generate_launch_description():
                 config_rostron: config_rostron
             }.items()
         ),
-    ])
+    ]
 
     for robot in robots:
-        ns_robot = [ns, '/robot_', str(robot)]
+        ns_robot = ['robot_', str(robot)]
         group = GroupAction([
             PushRosNamespace(
                 namespace=ns_robot),
@@ -49,7 +54,8 @@ def generate_launch_description():
                     os.path.join(launch_dir, 'rviz_launch.py')),
                 # condition=IfCondition(use_rviz), TODO @Etienne : Rviz by default is not True.
                 launch_arguments={
-                    'namespace': ns_robot, # See textsubstitution
+                    # See textsubstitution
+                    'namespace': ['yellow', '/robot_', str(robot)],
                     # 'rviz_config': rviz_config_file
                 }.items()),
             IncludeLaunchDescription(
@@ -57,10 +63,16 @@ def generate_launch_description():
                     os.path.join(launch_dir, 'rostron_nav.launch.py')
                 ),
                 launch_arguments={
-                    'namespace': ns_robot
-                }.items())
+                    'namespace': ['yellow', '/robot_', str(robot)]
+                }.items()),
+            Node(
+                package='rostron_nav',
+                executable='conv'
+            )
         ])
 
-        ld.add_action(group)
+        group_main.append(group)
+
+    ld.add_action(GroupAction(group_main))
 
     return ld
