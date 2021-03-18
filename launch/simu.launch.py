@@ -39,7 +39,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'namespace': ns,
-                config_rostron: config_rostron
+                'config_rostron': config_rostron
             }.items()
         ),
     ]
@@ -55,7 +55,7 @@ def generate_launch_description():
                 # condition=IfCondition(use_rviz), TODO @Etienne : Rviz by default is not True.
                 launch_arguments={
                     # See textsubstitution
-                    'namespace': ['yellow', '/robot_', str(robot)],
+                    'namespace': [ns, '/robot_', str(robot)],
                     # 'rviz_config': rviz_config_file
                 }.items()),
             IncludeLaunchDescription(
@@ -63,12 +63,10 @@ def generate_launch_description():
                     os.path.join(launch_dir, 'rostron_nav.launch.py')
                 ),
                 launch_arguments={
-                    'namespace': ['yellow', '/robot_', str(robot)]
-                }.items()),
-            Node(
-                package='rostron_nav',
-                executable='conv'
-            )
+                    'namespace': [ns, '/robot_', str(robot)],
+                    'team': ns,
+                    'robot_id': str(robot)
+                }.items())
         ])
 
         group_main.append(group)

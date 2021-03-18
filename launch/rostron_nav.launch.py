@@ -18,6 +18,8 @@ def generate_launch_description():
     ns = LaunchConfiguration('namespace')
     params_file = LaunchConfiguration('conf')
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
+    robot_id = LaunchConfiguration('robot_id')
+    team = LaunchConfiguration('team')
 
     lifecycle_nodes = [
         'controller_server',
@@ -26,12 +28,12 @@ def generate_launch_description():
         'bt_navigator',
         'map_server']
 
-    # TODO : @Etienne
     remappings = [('/tf', 'tf'),
                   ('/tf_static', 'tf_static')]
 
     param_substitutions = {
-        'default_bt_xml_filename': default_bt_xml_filename
+        'default_bt_xml_filename': default_bt_xml_filename,
+        'robot_id': robot_id
     }
 
     conf = RewrittenYaml(
@@ -56,8 +58,14 @@ def generate_launch_description():
                 bringup_dir,
                 'behavior_trees', 'navigate_w_replanning_and_recovery.xml'),
             description='Full path to the behavior tree xml file to use'),
-
-
+        DeclareLaunchArgument(
+            'robot_id',
+            default_value='0',
+            description='ID Robot'),
+        DeclareLaunchArgument(
+            'team',
+            default_value='yellow',
+            description='ID Robot'),
         # Navigation - Start
 
         # Fake TF Transform odom <-> base_link
@@ -75,7 +83,19 @@ def generate_launch_description():
             executable='localisation',
             name='localisation',
             output='screen',
-            remappings=remappings
+            remappings=remappings,
+            parameters=[{'robot_id': robot_id},
+                        {'team': team}
+                        ]
+        ),
+
+
+        Node(
+            package='rostron_nav',
+            executable='conv',
+            parameters=[{'robot_id': robot_id},
+                        {'team': team}
+                        ]
         ),
 
         # Controller

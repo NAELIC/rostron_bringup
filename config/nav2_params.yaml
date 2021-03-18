@@ -148,6 +148,7 @@ global_costmap:
       rostron_obstacle_layer:
         plugin: rostron_nav_costmap_plugin/ObstacleLayer
         enabled: True
+        robot_id: 1
 
 map_server:
   ros__parameters:
