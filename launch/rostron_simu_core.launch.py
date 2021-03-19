@@ -34,9 +34,9 @@ def generate_launch_description():
         # Filters + Localisation - Minimal filters
         # Todo(@Etienne) - rename this on agreggate_loc
         Node(
-            package='rostron_filters_py',
-            executable='minimal_filter',
-            name='filter',
+            package='rostron_aggregate_py',
+            executable='minimal_aggregate',
+            name='aggregate',
             parameters=[config],
             output='screen'
         ),
