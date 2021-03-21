@@ -16,7 +16,7 @@ def generate_launch_description():
     ns = LaunchConfiguration('team')
     config_rostron = LaunchConfiguration('config_rostron')
 
-    robots = [0, 1]
+    robots = [0]
 
     ld = LaunchDescription([
         DeclareLaunchArgument(
