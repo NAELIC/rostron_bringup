@@ -47,5 +47,14 @@ def generate_launch_description():
             executable='sim_sender',
             parameters=[config],
             output='screen'
-        )
+        ),
+        
+        # GameController
+        Node(
+            package='rostron_receiver',
+            executable='gc',
+            parameters=[config],
+            output='screen'
+        ),
+
     ])
