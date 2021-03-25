@@ -92,7 +92,7 @@ def generate_launch_description():
 
         Node(
             package='rostron_nav',
-            executable='conv',
+            executable='nav2order',
             parameters=[{'robot_id': robot_id},
                         {'team': team}
                         ]
