@@ -7,7 +7,7 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, Grou
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node, PushRosNamespace
 from launch.substitutions import LaunchConfiguration, TextSubstitution
-
+from launch.conditions import IfCondition
 
 def generate_launch_description():
     bringup_dir = get_package_share_directory('rostron_bringup')
@@ -15,6 +15,7 @@ def generate_launch_description():
 
     ns = LaunchConfiguration('team')
     config_rostron = LaunchConfiguration('config_rostron')
+    use_rviz = LaunchConfiguration('use_rviz')
 
     robots = [0]
 
@@ -28,6 +29,10 @@ def generate_launch_description():
             default_value=os.path.join(
                 bringup_dir, 'params', 'rostron_sim.yaml'),
             description='Configuration files for rostron'),
+        DeclareLaunchArgument(
+            'use_rviz',
+            default_value='False',
+            description='Whether to start RVIZ')
     ])
 
     group_main = [
@@ -52,7 +57,7 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(launch_dir, 'rviz_launch.py')),
-                # condition=IfCondition(use_rviz), TODO @Etienne : Rviz by default is not True.
+                condition=IfCondition(use_rviz),
                 launch_arguments={
                     # See textsubstitution
                     'namespace': [ns, '/robot_', str(robot)],
