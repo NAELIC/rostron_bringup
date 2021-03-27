@@ -32,6 +32,7 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: false
+    short_circuit_trajectory_evaluation: false
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.0
     min_y_velocity_threshold: 0.0
@@ -49,38 +50,38 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.2
-      yaw_goal_tolerance: 0.3
-      stateful: True
+      xy_goal_tolerance: 0.1
+      yaw_goal_tolerance: 0.1
+      stateful: false
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: 0.0
-      max_vel_x: 4.0
-      min_vel_y: 0.0
-      max_vel_y: 4.0
-      min_speed_xy: 0.1
-      max_speed_xy: 4.0
-      min_speed_theta: 0.1
-      max_vel_theta: 2.0
+      min_vel_x: -3.5
+      max_vel_x: 3.5
+      min_vel_y: -3.5
+      max_vel_y: 3.5
+      min_speed_xy: -4.5
+      max_speed_xy: 4.5
+      min_speed_theta: -1.48
+      max_vel_theta: 1.48
       acc_lim_x: 3.0
       acc_lim_y: 3.0
-      acc_lim_theta: 2.0
-      decel_lim_x: -2.0
-      decel_lim_y: -2.0
-      decel_lim_theta: -2.0
+      acc_lim_theta: 3.0
+      decel_lim_x: -3.0
+      decel_lim_y: -3.0
+      decel_lim_theta: -3.0
       # stateful: true
       critics: ["GoalDist"]
 
       # BaseObstacle.scale: 0.02
-      # PathAlign.scale: 32.0
+      # PathAlign.scale: 2.0
       # PathAlign.forward_point_distance: 0.1
       # GoalAlign.scale: 24.0
       # GoalAlign.forward_point_distance: 0.1
-      # PathDist.scale: 2.0
+      # PathDist.scale: 16.0
       GoalDist.scale: 1.0
-      # RotateToGoal.scale: 32.0
+      # RotateToGoal.scale: 8.0
       # RotateToGoal.slowing_factor: 5.0
       # RotateToGoal.lookahead_time: -1.0
 
