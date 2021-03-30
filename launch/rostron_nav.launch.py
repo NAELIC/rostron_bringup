@@ -33,7 +33,8 @@ def generate_launch_description():
 
     param_substitutions = {
         'default_bt_xml_filename': default_bt_xml_filename,
-        'robot_id': robot_id
+        'robot_id': robot_id,
+        'team' : team
     }
 
     conf = RewrittenYaml(
@@ -93,6 +94,7 @@ def generate_launch_description():
         Node(
             package='rostron_nav',
             executable='nav2order',
+            remappings=remappings,
             parameters=[{'robot_id': robot_id},
                         {'team': team}
                         ]
@@ -150,6 +152,7 @@ def generate_launch_description():
             executable='lifecycle_manager',
             name='lifecycle_manager_navigation',
             output='screen',
+            remappings=remappings,
             parameters=[{'autostart': True},
                         {'use_sim_time': False},
                         {'node_names': lifecycle_nodes}])

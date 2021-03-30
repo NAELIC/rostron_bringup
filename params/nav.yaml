@@ -106,6 +106,7 @@ local_costmap:
         plugin: rostron_nav_costmap_plugin/ObstacleLayer
         enabled: true
         robot_id: 0
+        team: 'yellow'
       always_send_full_costmap: True
 
 global_costmap:
@@ -128,6 +129,7 @@ global_costmap:
         plugin: rostron_nav_costmap_plugin/ObstacleLayer
         enabled: True
         robot_id: 0
+        team: 'yellow'
 
 planner_server:
   ros__parameters:
