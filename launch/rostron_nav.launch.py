@@ -32,9 +32,10 @@ def generate_launch_description():
                   ('/tf_static', 'tf_static')]
 
     param_substitutions = {
-        'default_bt_xml_filename': default_bt_xml_filename,
+        'default_nav_to_pose_bt_xml': default_bt_xml_filename,
+        'default_nav_through_poses_bt_xml': default_bt_xml_filename,
         'robot_id': robot_id,
-        'team' : team
+        'team': team
     }
 
     conf = RewrittenYaml(
@@ -154,6 +155,5 @@ def generate_launch_description():
             output='screen',
             remappings=remappings,
             parameters=[{'autostart': True},
-                        {'use_sim_time': False},
                         {'node_names': lifecycle_nodes}])
     ])

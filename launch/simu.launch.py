@@ -17,8 +17,8 @@ def generate_launch_description():
     config_rostron = LaunchConfiguration('config_rostron')
     use_rviz = LaunchConfiguration('use_rviz')
 
+    robots = [0]
     # robots = [0, 1, 2, 3, 4, 5]
-    robots = [0, 1, 2, 3, 4, 5]
 
     ld = LaunchDescription([
         DeclareLaunchArgument(
