@@ -17,7 +17,8 @@ def generate_launch_description():
 
     ns = LaunchConfiguration('namespace')
     params_file = LaunchConfiguration('conf')
-    default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
+    nav_to_pose_xml = LaunchConfiguration('nav_to_pose_xml')
+    nav_through_pose_xml = LaunchConfiguration('nav_through_pose_xml')
     robot_id = LaunchConfiguration('robot_id')
     team = LaunchConfiguration('team')
 
@@ -26,14 +27,15 @@ def generate_launch_description():
         'planner_server',
         'recoveries_server',
         'bt_navigator',
-        'map_server']
+        'map_server'
+    ]
 
     remappings = [('/tf', 'tf'),
                   ('/tf_static', 'tf_static')]
 
     param_substitutions = {
-        # 'default_nav_to_pose_bt_xml': default_bt_xml_filename,
-        # 'default_nav_through_poses_bt_xml': default_bt_xml_filename,
+        'default_nav_to_pose_bt_xml': nav_to_pose_xml,
+        'default_nav_through_poses_bt_xml': nav_through_pose_xml,
         'robot_id': robot_id,
         'team': team
     }
@@ -55,10 +57,16 @@ def generate_launch_description():
                 bringup_dir, 'params', 'nav.yaml'),
             description='Namespace robot in teams'),
         DeclareLaunchArgument(
-            'default_bt_xml_filename',
+            'nav_to_pose_xml',
             default_value=os.path.join(
                 bringup_dir,
-                'behavior_trees', 'navigate_w_replanning_and_recovery.xml'),
+                'behavior_trees', 'navigate_to_pose_w_replanning_and_recovery.xml'),
+            description='Full path to the behavior tree xml file to use'),
+        DeclareLaunchArgument(
+            'nav_through_pose_xml',
+            default_value=os.path.join(
+                bringup_dir,
+                'behavior_trees', 'navigate_through_poses_w_replanning_and_recovery.xml'),
             description='Full path to the behavior tree xml file to use'),
         DeclareLaunchArgument(
             'robot_id',
@@ -124,7 +132,9 @@ def generate_launch_description():
             executable='recoveries_server',
             name='recoveries_server',
             remappings=remappings,
-            output='screen'),
+            output='screen',
+            parameters=[conf]
+        ),
 
         # To see
         Node(
@@ -147,6 +157,14 @@ def generate_launch_description():
                         {'yaml_filename': map_file}
                         ]
         ),
+
+        Node(
+            package='nav2_waypoint_follower',
+            executable='waypoint_follower',
+            name='waypoint_follower',
+            output='screen',
+            parameters=[conf],
+            remappings=remappings),
 
         Node(
             package='nav2_lifecycle_manager',
