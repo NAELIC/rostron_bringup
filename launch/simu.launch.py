@@ -15,7 +15,7 @@ def generate_launch_description():
 
     ns = LaunchConfiguration('team')
     config_rostron = LaunchConfiguration('config_rostron')
-    use_rviz = LaunchConfiguration('use_rviz')
+    use_rviz = LaunchConfiguration('rviz')
 
     robots = [0]
     # robots = [0, 1, 2, 3, 4, 5]
@@ -31,9 +31,9 @@ def generate_launch_description():
                 bringup_dir, 'params', 'rostron_sim.yaml'),
             description='Configuration files for rostron'),
         DeclareLaunchArgument(
-            'use_rviz',
+            'rviz',
             default_value='False',
-            description='Whether to start RVIZ')
+            description='Display RVIZ')
     ])
 
     group_main = [
