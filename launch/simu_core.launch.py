@@ -9,15 +9,9 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     bringup_dir = get_package_share_directory('rostron_bringup')
-
-    ns = LaunchConfiguration('namespace')
     config = LaunchConfiguration('config_rostron')
 
     return LaunchDescription([
-        DeclareLaunchArgument(
-            'namespace',
-            default_value='yellow',
-            description='Namespace teams'),
         DeclareLaunchArgument(
             'config_rostron',
             default_value=os.path.join(bringup_dir, 'params', 'rostron_sim.yaml'),

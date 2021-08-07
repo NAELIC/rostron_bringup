@@ -7,7 +7,7 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, Grou
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import PushRosNamespace
 from launch.substitutions import LaunchConfiguration
-from launch.conditions import IfCondition
+
 
 def generate_launch_description():
     bringup_dir = get_package_share_directory('rostron_bringup')
@@ -40,9 +40,13 @@ def generate_launch_description():
                 os.path.join(launch_dir, 'simu_core.launch.py')
             ),
             launch_arguments={
-                'namespace': ns,
                 'config_rostron': config_rostron
             }.items()
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(launch_dir, 'navigation.launch.py')
+            )
         ),
     ]
 
