@@ -2,6 +2,8 @@ yellow:
   vision:
     ros__parameters:
       port: 10020
+      yellow : True
+
 
   sim_sender:
     ros__parameters:
@@ -16,6 +18,7 @@ blue:
   vision:
     ros__parameters:
       port: 10020
+      yellow : False
 
   sim_sender:
     ros__parameters:
